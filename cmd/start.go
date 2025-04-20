@@ -6,7 +6,7 @@ package cmd
 import (
 	"fmt"
 
-	handle "github.com/aburifat/go-agro/pkg/backend/services/user_service"
+	handle "github.com/aburifat/go-agro/pkg"
 
 	"github.com/spf13/cobra"
 )
