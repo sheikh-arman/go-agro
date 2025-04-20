@@ -8,6 +8,7 @@ import (
 	"github.com/aburifat/go-agro/pkg/backend/services/user_service/proto"
 	"github.com/aburifat/go-agro/pkg/backend/services/user_service/repository"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +26,7 @@ func NewUserHandler(db *gorm.DB) *UserHandler {
 
 func (h *UserHandler) CreateUser(ctx context.Context, req *proto.CreateUserRequest) (*proto.CreateUserResponse, error) {
 	user := &api.User{
+		ID:       uuid.New().String(),
 		Username: req.GetUsername(),
 		Email:    req.GetEmail(),
 		Password: req.GetPassword(),

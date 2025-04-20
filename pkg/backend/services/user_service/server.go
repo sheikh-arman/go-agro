@@ -10,6 +10,7 @@ import (
 	"github.com/aburifat/go-agro/pkg/backend/services/user_service/handlers"
 	"github.com/aburifat/go-agro/pkg/backend/services/user_service/proto"
 
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"gorm.io/driver/postgres"
@@ -20,10 +21,10 @@ func Server() {
 	logger, _ := zap.NewProduction() // or zap.NewDevelopment() for dev
 	defer logger.Sync()
 	logger.Info("Starting server")
-	//err := godotenv.Load()
-	//if err != nil {
-	//	log.Fatalf("Error loading .env file: %v", err)
-	//}
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 	postgresUser := os.Getenv("POSTGRES_USER")
 	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
 	dsn := fmt.Sprintf("host=localhost user=%s password=%s dbname=users port=5432 sslmode=disable TimeZone=UTC", postgresUser, postgresPassword)
@@ -35,8 +36,8 @@ func Server() {
 
 	logger.Info("Successfully connected to database")
 
-	//install extension
-	db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)
+	// install extension
+	//db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)
 	// Auto-migrate the schema (creates/updates tables based on structs)
 	err = db.AutoMigrate(&api.User{})
 	if err != nil {
